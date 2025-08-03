@@ -1,0 +1,57 @@
+require('dotenv').config();
+const express = require('express');
+const bodyParser = require('body-parser');
+const { TwitterApi } = require('twitter-api-v2');
+const { generateTweet } = require('./tweetTemplates');
+
+const twitter = new TwitterApi({
+  appKey: process.env.TWITTER_APP_KEY,
+  appSecret: process.env.TWITTER_APP_SECRET,
+  accessToken: process.env.TWITTER_ACCESS_TOKEN,
+  accessSecret: process.env.TWITTER_ACCESS_SECRET
+});
+
+const client = twitter.readWrite;
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(bodyParser.json());
+
+app.get("/", (req, res) => {
+  res.send("BreakingSportsBot is live!");
+});
+
+app.post("/news", async (req, res) => {
+  const { headline, reporter, handle } = req.body;
+
+  if (!headline || !reporter) {
+    return res.status(400).json({ error: "Missing headline or reporter" });
+  }
+
+  const tweetText = generateTweet({ headline, reporter, handle });
+
+  try {
+    const result = await client.v2.tweet(tweetText);
+    res.json({ success: true, tweet: tweetText, id: result.data.id });
+  } catch (err) {
+    console.error("Tweet error:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+if (process.env.REPLIT_RUN_ID) {
+  const testNews = {
+    headline: "Team X wins the championship!",
+    reporter: "Jane Doe",
+    handle: "JaneDoeSports"
+  };
+  (async () => {
+    const tweet = generateTweet(testNews);
+    await client.v2.tweet(tweet);
+    console.log("Test tweet sent:", tweet);
+  })();
+}
+
+app.listen(PORT, () => {
+  console.log(`BreakingSportsBot running on port ${PORT}`);
+});
