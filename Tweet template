@@ -1,0 +1,11 @@
+function generateTweet({ headline, reporter, handle }) {
+  const templates = [
+    `${headline} (via ${reporter}${handle ? ` @${handle}` : ''})`,
+    `Breaking: ${headline} — first reported by ${reporter}${handle ? ` (@${handle})` : ''}`,
+    `Update: ${headline} — source: ${reporter}${handle ? ` @${handle}` : ''}`,
+    `Just In: ${headline} — h/t ${reporter}${handle ? ` (@${handle})` : ''}`,
+    `${headline} — credit: ${reporter}${handle ? ` @${handle}` : ''}`
+  ];
+  return templates[Math.floor(Math.random() * templates.length)];
+}
+module.exports = { generateTweet };
