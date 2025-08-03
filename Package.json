@@ -1,11 +1,20 @@
 {
   "name": "breaking-sports-bot",
   "version": "1.0.0",
-  "description": "Twitter bot that posts breaking sports news and credits the source.",
+  "description": "A Twitter bot that posts breaking sports news and credits the reporter.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
+  "keywords": [
+    "twitter",
+    "bot",
+    "sports",
+    "news",
+    "breaking-news"
+  ],
+  "author": "YourNameHere",
+  "license": "MIT",
   "dependencies": {
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
