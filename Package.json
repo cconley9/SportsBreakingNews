@@ -1,0 +1,15 @@
+{
+  "name": "breaking-sports-bot",
+  "version": "1.0.0",
+  "description": "Twitter bot that posts breaking sports news and credits the source.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "body-parser": "^1.20.2",
+    "twitter-api-v2": "^1.18.0"
+  }
+}
